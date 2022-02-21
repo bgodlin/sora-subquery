@@ -33,16 +33,6 @@ jobs:
         run: |
           set -xe
 
-          DEPLOYMENT_ID=$(subquery --token ${{ secrets.SUBQUERY_TOKEN }} deployment list --key sora-dev --org sora-xor -o json | jq '.[1].id')
-          echo "Recevied deployment id"
-
-          subquery --token ${{ secrets.SUBQUERY_TOKEN }} deployment delete \
-            --org ${{ env.SUBQUERY_ORG }} \
-            --key ${{ matrix.chain }} \
-            --id $DEPLOYMENT_ID
-          y
-          echo "Deleted old deployment"
-
           subquery --token ${{ secrets.SUBQUERY_TOKEN }} deployment deploy \
             --org ${{ env.SUBQUERY_ORG }} \
             --key ${{ matrix.chain }} \
@@ -52,4 +42,5 @@ jobs:
             --indexer-image-version v0.28.2 \
             --query-image-version v0.12.0 \
             --endpoint wss://ws.framenode-3.s3.dev.sora2.soramitsu.co.jp
+            --force
           echo "New deployment is executed"
