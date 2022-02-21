@@ -29,10 +29,6 @@ jobs:
           unzip subquery-linux-x86_64.zip -d $HOME/.local/bin/
           rm -rf subquery-linux-x86_64.zip
 
-          # Install jq to read curl json outputs
-          sudo apt-get install jq
-          Y
-
       - name: Deploy
         run: |
           set -xe
@@ -44,6 +40,7 @@ jobs:
             --org ${{ env.SUBQUERY_ORG }} \
             --key ${{ matrix.chain }} \
             --id $DEPLOYMENT_ID
+          y
           echo "Deleted old deployment"
 
           subquery --token ${{ secrets.SUBQUERY_TOKEN }} deployment deploy \
